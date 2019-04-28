@@ -1,7 +1,24 @@
 /*
  * Create a list that holds all of your cards
  */
-
+let cardClassesList = [
+    'fa-diamond',
+    'fa-diamond',
+    'fa-paper-plane-o',
+    'fa-paper-plane-o',
+    'fa-anchor',
+    'fa-anchor',
+    'fa-bolt',
+    'fa-bolt',
+    'fa-cube',
+    'fa-cube',
+    'fa-bomb',
+    'fa-bomb',
+    'fa-bicycle',
+    'fa-bicycle',
+    'fa-leaf',
+    'fa-leaf'
+]
 
 /*
  * Display the cards on the page
@@ -25,6 +42,23 @@ function shuffle(array) {
     return array;
 }
 
+//shuffle the cards and let them in a new array
+let shuffeledcards = shuffle(cardClassesList) ;
+
+//create the card element from shuffledcards and append them to the deck elemnt
+const fragment = document.createDocumentFragment() ;
+for (card of shuffeledcards) {
+    const newElement = document.createElement('li');
+    newElement.classList.add('card')
+    //newElement.classList.add('match')
+    newElement.innerHTML = `<i class="fa ${card}"></i>` ;
+
+    //document.querySelector(".deck").appendChild(newElement) ;
+    fragment.appendChild(newElement);
+}
+const deck = document.querySelector(".deck");
+deck.appendChild(fragment);
+
 
 /*
  * set up the event listener for a card. If a card is clicked:
@@ -36,3 +70,77 @@ function shuffle(array) {
  *    + increment the move counter and display it on the page (put this functionality in another function that you call from this one)
  *    + if all cards have matched, display a message with the final score (put this functionality in another function that you call from this one)
  */
+
+let opencards = []
+let moves = 0 ;
+let noOfOpendCards = 0 ;
+
+//function to flip the cards back and forth
+var flipcard = function(card) {
+    //e.target.classList.toggle('show') ;
+    card.classList.add('open','show') ;
+}
+
+var flipbackcards = function(cards) { 
+    cards[0].classList.remove ('open', 'show')
+    cards[1].classList.remove ('open', 'show')
+}
+
+
+var second = 0, minute = 0;
+var timer = document.querySelector(".timer");
+var i = 0 ;
+function startCounter(){
+    interval = setInterval(function() {
+      timer.innerHTML= i++;
+    }, 1000);
+  }
+startCounter();
+/* 
+if click
+    displaycard
+    add the card to opencards
+    if cards has two items 
+        compare
+        if equal 
+            add open as matched
+        else 
+            close them
+    increment counter
+*/
+
+matched = function(cards) {
+    if (cards[0].innerHTML === cards[1].innerHTML){
+        return true ;
+    }
+}
+
+play = function (e) {
+    if (! e.target.classList.contains('match')) {
+        flipcard(e.target) ;
+        opencards.push(e.target) ;
+
+        if (opencards.length === 2) {
+            if (matched(opencards)) {
+                flipbackcards(opencards)
+                opencards[0].classList.add('match') ;
+                opencards[1].classList.add('match') ;
+                noOfOpendCards += 2 ;
+            } else
+            {
+                setTimeout ( flipbackcards ,500 ,opencards)
+            }
+            opencards = []
+            moves +=1 ;
+
+            document.querySelector('.moves').textContent = moves ;
+            console.log(moves)
+            if (noOfOpendCards === cardClassesList.length) {
+                setTimeout(() => {alert('you win ')} , 500)
+            }
+            
+        }
+    }
+}
+
+deck.addEventListener('click', play) ;
