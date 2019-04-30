@@ -42,8 +42,12 @@ function shuffle(array) {
     return array;
 }
 
+const deck = document.querySelector(".deck");
+
+function addCardsToDeck() {
 //shuffle the cards and let them in a new array
 let shuffeledcards = shuffle(cardClassesList) ;
+deck.innerHTML ='' ;
 
 //create the card element from shuffledcards and append them to the deck elemnt
 const fragment = document.createDocumentFragment() ;
@@ -56,8 +60,13 @@ for (card of shuffeledcards) {
     //document.querySelector(".deck").appendChild(newElement) ;
     fragment.appendChild(newElement);
 }
-const deck = document.querySelector(".deck");
+
 deck.appendChild(fragment);
+
+}
+
+
+
 
 
 /*
@@ -71,43 +80,47 @@ deck.appendChild(fragment);
  *    + if all cards have matched, display a message with the final score (put this functionality in another function that you call from this one)
  */
 
-let opencards = []
-let moves = 0 ;
-let noOfOpendCards = 0 ;
+let opencards 
+let moves 
+let noOfOpendCards 
+let timer = document.querySelector(".timer");
+let i  ;
+let firstmove 
+
+function initilizeGame() {
+    opencards = []
+    moves = 0 ;
+    noOfOpendCards = 0 ;
+    i = 0 ;
+ 
+    addCardsToDeck() ;
+    firstmove = true ;
+
+    }
+    
+    initilizeGame() 
 
 //function to flip the cards back and forth
 var flipcard = function(card) {
     //e.target.classList.toggle('show') ;
-    card.classList.add('open','show') ;
+    card.classList.add('open','show','disabled') ;
 }
 
 var flipbackcards = function(cards) { 
-    cards[0].classList.remove ('open', 'show')
-    cards[1].classList.remove ('open', 'show')
+    cards[0].classList.remove ('open', 'show' , 'disabled')
+    cards[1].classList.remove ('open', 'show', 'disabled')
 }
 
 
-var second = 0, minute = 0;
-var timer = document.querySelector(".timer");
-var i = 0 ;
+
+
+
 function startCounter(){
     interval = setInterval(function() {
       timer.innerHTML= i++;
     }, 1000);
   }
-startCounter();
-/* 
-if click
-    displaycard
-    add the card to opencards
-    if cards has two items 
-        compare
-        if equal 
-            add open as matched
-        else 
-            close them
-    increment counter
-*/
+
 
 matched = function(cards) {
     if (cards[0].innerHTML === cards[1].innerHTML){
@@ -115,8 +128,17 @@ matched = function(cards) {
     }
 }
 
+
+
 play = function (e) {
-    if (! e.target.classList.contains('match')) {
+
+    //start the timing
+    if (firstmove) {
+        startCounter() 
+        firstmove = false ;
+    }
+
+    if (! (e.target.classList.contains('match') || (e.target.classList.contains('disabled') ))) {
         flipcard(e.target) ;
         opencards.push(e.target) ;
 
@@ -136,6 +158,11 @@ play = function (e) {
             document.querySelector('.moves').textContent = moves ;
             console.log(moves)
             if (noOfOpendCards === cardClassesList.length) {
+                //you need to write your own !
+                function stopCounter(){
+                    clearInterval(interval);
+                  }
+                stopCounter() ;
                 setTimeout(() => {alert('you win ')} , 500)
             }
             
@@ -144,3 +171,9 @@ play = function (e) {
 }
 
 deck.addEventListener('click', play) ;
+
+
+let repeatbtn = document.querySelector('.fa-repeat') ; 
+repeatbtn.addEventListener('click' , function(){
+    initilizeGame() ;
+})
