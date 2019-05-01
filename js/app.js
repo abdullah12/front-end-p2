@@ -86,6 +86,7 @@ let noOfOpendCards
 let timer = document.querySelector(".timer");
 let i  ;
 let firstmove 
+let noOfStars
 
 function initilizeGame() {
     opencards = []
@@ -95,10 +96,21 @@ function initilizeGame() {
  
     addCardsToDeck() ;
     firstmove = true ;
+    noOfStars = 3 ;
 
+}
+
+let stars = document.querySelectorAll('.fa-star')
+
+initilizeGame() 
+
+function openModal(){
+        modalContent.innerHTML = `
+        <p>your moves was ${moves}</p>
+        <p>your times was ${timer.innerHTML}</p>
+        `
+        modal.style.display = 'block' ;
     }
-    
-    initilizeGame() 
 
 //function to flip the cards back and forth
 var flipcard = function(card) {
@@ -163,11 +175,26 @@ play = function (e) {
                     clearInterval(interval);
                   }
                 stopCounter() ;
-                setTimeout(() => {alert('you win ')} , 500)
+                setTimeout(openModal , 500)
             }
             
+                    // rewview this one
+
+        if ( (moves  == 18) && (noOfStars != 1)) {
+            noOfStars -- ;
+            stars[noOfStars].style.visibility = 'hidden'
+            
+        } else if ((moves  == 24) && (noOfStars != 1)) {
+            noOfStars -- ;
+            stars[noOfStars].style.visibility = 'hidden'
+        } 
+    
         }
+
+
     }
+
+
 }
 
 deck.addEventListener('click', play) ;
@@ -176,4 +203,18 @@ deck.addEventListener('click', play) ;
 let repeatbtn = document.querySelector('.fa-repeat') ; 
 repeatbtn.addEventListener('click' , function(){
     initilizeGame() ;
+})
+
+
+let modal = document.getElementById('simpleModal') ;
+let modalBtn = document.getElementById('modalBtn') ;
+let closeBtn = document.getElementById('closeBtn') ;
+let modalContent = document.getElementsByClassName('modal-content')[0] ;
+
+
+
+modalBtn.addEventListener('click' , openModal )
+
+closeBtn.addEventListener('click' , function (){
+    modal.style.display = 'none'
 })
