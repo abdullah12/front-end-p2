@@ -79,6 +79,7 @@ let noOfOpendCards //to keep number of those who has been matched
 let i  ; // for timer
 let firstmove // boolean varibale to start the counter
 let noOfStars // score : no of stars
+let interval ;
 
 
 const stars = document.querySelectorAll('.fa-star')
@@ -121,7 +122,7 @@ var flipbackcards = function(cards) {
 }
 
 function startCounter(){
-    var interval = setInterval(function() {
+      interval = setInterval(function() {
       timer.innerHTML= i++;
     }, 1000);
   }
