@@ -53,7 +53,7 @@ deck.innerHTML ='' ;
 
 //create the card element from shuffledcards and append them to the deck elemnt
 const fragment = document.createDocumentFragment() ;
-for (card of shuffeledcards) {
+for (let card of shuffeledcards) {
     const newElement = document.createElement('li');
     newElement.classList.add('card')
     newElement.innerHTML = `<i class="fa ${card}"></i>` ;
