@@ -121,7 +121,7 @@ var flipbackcards = function(cards) {
 }
 
 function startCounter(){
-    interval = setInterval(function() {
+    var interval = setInterval(function() {
       timer.innerHTML= i++;
     }, 1000);
   }
@@ -131,13 +131,13 @@ function stopCounter(){
 }
 
 
-matched = function(cards) {
+var matched = function(cards) {
     if (cards[0].innerHTML === cards[1].innerHTML){
         return true;
     }
 }
 
-play = function (e) {
+var play = function (e) {
 
     //start the timing
     if (firstmove) {
