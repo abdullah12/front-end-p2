@@ -3,18 +3,9 @@
 ## Table of Contents
 
 * [Instructions](#instructions)
+The game start when you click one card. the counter start after the first click
+Scoring system:
+all cards open within 17 moves -> you got 3 stars
+all cards open within 24 moves -> you got 2 stras
 * [Contributing](#contributing)
 
-## Instructions
-
-The starter project has some HTML and CSS styling to display a static version of the Memory Game project. You'll need to convert this project from a static project to an interactive one. This will require modifying the HTML and CSS files, but primarily the JavaScript file.
-
-To get started, open `js/app.js` and start building out the app's functionality
-
-For specific, detailed instructions, look at the project instructions in the [Udacity Classroom](https://classroom.udacity.com/me).
-
-## Contributing
-
-This repository is the starter code for _all_ Udacity students. Therefore, we most likely will not accept pull requests.
-
-For details, check out [CONTRIBUTING.md](CONTRIBUTING.md).

@@ -120,24 +120,28 @@ h1 {
     background-color: rgba(0,0,0,0.5)
 }
 
-.modal-content {
-    background-color: #f4f4f4;
-    margin:20% auto ;
-    padding: 20px ;
-    width: 70% ;
+.modal-content{
+    background-color:#f4f4f4;
+    margin:20% auto;
+    padding:20px;
+    width:70%;
     box-shadow: 0 5px 8px 0 rgba(0,0,0,0.17);
-
 }
 
-#closeBtn {
+#closeBtn{
     color:#ccc;
-    float: right;
-    font-size: 30px;
+    float:right;
+    font-size:30px;
 }
 
-#closeBtn:hover
+#closeBtn:hover{
+    color:#000 ;
+    text-decoration:none;
+    cursor:pointer;
+}
+
+.modal-content > *
 {
-    color: #000 ;
-    text-decoration: none ;
-    cursor:pointer ;
+    text-align: center ;
+    margin: 0 auto ;
 }

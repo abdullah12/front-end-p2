@@ -44,7 +44,7 @@ function shuffle(array) {
 
 const deck = document.querySelector(".deck");
 
-function shuffleAddCardsToDeck() {
+function addCardsToDeck() {
 //shuffle the cards and let them in a new array
 let shuffeledcards = shuffle(cardClassesList) ;
 deck.innerHTML ='' ;
@@ -54,11 +54,18 @@ const fragment = document.createDocumentFragment() ;
 for (card of shuffeledcards) {
     const newElement = document.createElement('li');
     newElement.classList.add('card')
+    //newElement.classList.add('match')
     newElement.innerHTML = `<i class="fa ${card}"></i>` ;
+
+    //document.querySelector(".deck").appendChild(newElement) ;
     fragment.appendChild(newElement);
 }
 deck.appendChild(fragment);
 }
+
+
+
+
 
 /*
  * set up the event listener for a card. If a card is clicked:
@@ -71,12 +78,12 @@ deck.appendChild(fragment);
  *    + if all cards have matched, display a message with the final score (put this functionality in another function that you call from this one)
  */
 
-let opencards // the pair that has been fliped temporarily
-let moves // for the score, the number of moves; one pair flip is one move
-let noOfOpendCards //to keep number of those who has been matched 
-let i  ; // for timer
-let firstmove // boolean varibale to start the counter
-let noOfStars // score : no of stars
+let opencards 
+let moves 
+let noOfOpendCards 
+let i  ;
+let firstmove 
+let noOfStars
 
 
 let stars = document.querySelectorAll('.fa-star')
@@ -86,14 +93,13 @@ let modalBtn = document.getElementById('modalBtn') ;
 let closeBtn = document.getElementById('closeBtn') ;
 let modalContent = document.getElementsByClassName('modal-content')[0] ;
 
-//reset every thing
 function initilizeGame() {
     opencards = []
     moves = 0 ;
     noOfOpendCards = 0 ;
     i = 0 ;
  
-    shuffleAddCardsToDeck() ;
+    addCardsToDeck() ;
     firstmove = true ;
     noOfStars = 3 ;
 }
@@ -101,11 +107,12 @@ function initilizeGame() {
 initilizeGame() 
 
 function openModal(){
-    document.getElementById('moveScore').innerHTML = moves ;
-    document.getElementById('timeScore').innerHTML = timer.innerHTML ;
-    document.getElementById('starScore').innerHTML = noOfStars ;
-    modal.style.display = 'block' ;
-}
+        modalContent.innerHTML = `
+        <p>your moves was ${moves}</p>
+        <p>your times was ${timer.innerHTML}</p>
+        `
+        modal.style.display = 'block' ;
+    }
 
 //function to flip the cards back and forth
 var flipcard = function(card) {
@@ -113,7 +120,7 @@ var flipcard = function(card) {
     card.classList.add('open','show','disabled') ;
 }
 
-var flipbackcards = function(cards) {
+var flipbackcards = function(cards) { 
     cards[0].classList.remove ('open', 'show' , 'disabled')
     cards[1].classList.remove ('open', 'show', 'disabled')
 }
@@ -124,14 +131,10 @@ function startCounter(){
     }, 1000);
   }
 
-function stopCounter(){
-    clearInterval(interval);
-}
-
 
 matched = function(cards) {
     if (cards[0].innerHTML === cards[1].innerHTML){
-        return true;
+        return true ;
     }
 }
 
@@ -139,65 +142,71 @@ play = function (e) {
 
     //start the timing
     if (firstmove) {
-        startCounter()
+        startCounter() 
         firstmove = false ;
     }
 
-    if (e.target.classList.contains('card')) {
-        if (! (e.target.classList.contains('match') || (e.target.classList.contains('disabled') ))) {
-            flipcard(e.target) ;
-            opencards.push(e.target) ;
+    if (! (e.target.classList.contains('match') || (e.target.classList.contains('disabled') ))) {
+        flipcard(e.target) ;
+        opencards.push(e.target) ;
 
-            if (opencards.length === 2) {
-                if (matched(opencards)) {
-                    flipbackcards(opencards)
-                    opencards[0].classList.add('match') ;
-                    opencards[1].classList.add('match') ;
-                    noOfOpendCards += 2 ;
-                } else
-                {
-                    setTimeout ( flipbackcards ,500 ,opencards)
-                }
-
-                opencards = []
-                moves +=1 ;
-
-                document.querySelector('.moves').textContent = moves ;
-                console.log(moves)
-
-                if (noOfOpendCards === cardClassesList.length) {
-
-                    stopCounter() ;
-                    setTimeout(openModal , 500)
-                }
-
-                if ( (moves  == 18) && (noOfStars != 1)) {
-                    noOfStars -- ;
-                    stars[noOfStars].style.visibility = 'hidden'
-                    
-                } else if ((moves  == 24) && (noOfStars != 1)) {
-                    noOfStars -- ;
-                    stars[noOfStars].style.visibility = 'hidden'
-                } 
+        if (opencards.length === 2) {
+            if (matched(opencards)) {
+                flipbackcards(opencards)
+                opencards[0].classList.add('match') ;
+                opencards[1].classList.add('match') ;
+                noOfOpendCards += 2 ;
+            } else
+            {
+                setTimeout ( flipbackcards ,500 ,opencards)
             }
+            opencards = []
+            moves +=1 ;
+
+            document.querySelector('.moves').textContent = moves ;
+            console.log(moves)
+            if (noOfOpendCards === cardClassesList.length) {
+                //you need to write your own !
+                function stopCounter(){
+                    clearInterval(interval);
+                  }
+                stopCounter() ;
+                setTimeout(openModal , 500)
+            }
+            
+                    // rewview this one
+
+        if ( (moves  == 18) && (noOfStars != 1)) {
+            noOfStars -- ;
+            stars[noOfStars].style.visibility = 'hidden'
+            
+        } else if ((moves  == 24) && (noOfStars != 1)) {
+            noOfStars -- ;
+            stars[noOfStars].style.visibility = 'hidden'
+        } 
+    
         }
+
+
     }
+
+
 }
 
 deck.addEventListener('click', play) ;
 
+
 let repeatbtn = document.querySelector('.fa-repeat') ; 
 repeatbtn.addEventListener('click' , function(){
-     stopCounter() ;
     initilizeGame() ;
 })
+
+
+
+
+
+modalBtn.addEventListener('click' , openModal )
 
 closeBtn.addEventListener('click' , function (){
     modal.style.display = 'none'
-})
-
-let playAgainbtn = document.querySelector('#playAgain') ;
-playAgainbtn.addEventListener('click', () => {
-    modal.style.display = 'none'
-    initilizeGame() ;
 })
