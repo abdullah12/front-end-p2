@@ -1,7 +1,7 @@
 /*
  * Create a list that holds all of your cards
  */
-let cardClassesList = [
+const cardClassesList = [
     'fa-diamond',
     'fa-diamond',
     'fa-paper-plane-o',
@@ -79,12 +79,12 @@ let firstmove // boolean varibale to start the counter
 let noOfStars // score : no of stars
 
 
-let stars = document.querySelectorAll('.fa-star')
-let timer = document.querySelector(".timer");
-let modal = document.getElementById('simpleModal') ;
-let modalBtn = document.getElementById('modalBtn') ;
-let closeBtn = document.getElementById('closeBtn') ;
-let modalContent = document.getElementsByClassName('modal-content')[0] ;
+const stars = document.querySelectorAll('.fa-star')
+const timer = document.querySelector(".timer");
+const modal = document.getElementById('simpleModal') ;
+const modalBtn = document.getElementById('modalBtn') ;
+const closeBtn = document.getElementById('closeBtn') ;
+const modalContent = document.getElementsByClassName('modal-content')[0] ;
 
 //reset every thing
 function initilizeGame() {
